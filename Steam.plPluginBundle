@@ -1,0 +1,23 @@
+// for a description of the options see:
+// https://plengine.net/pages/docs/editor/editor-plugins.html
+
+PluginInfo
+{
+	string %DisplayName{"Steam"}
+	string %Category{"Gameplay"}
+	// The declared support window, not the binary-compatibility gate - that is the package's AbiTag.
+	string %MinEngineVersion{"0.11.2"}
+	string %MaxEngineVersion{"0.11.2"}
+	string %Icon{"SteamIcon.png"}
+	string %Banner{"SteamBanner.png"}
+	string %Description{"Steam platform backend: identity, achievements, stats, leaderboards, friends, presence, lobbies, matchmaking, invites, DLC, overlay, P2P transport and cloud saves. Requires the Steamworks SDK (STEAM_SDK_PATH) to build and steam_api64.dll beside the game to run."}
+	string %EditorPlugins{}
+	string %EditorEnginePlugins{}
+	string %RuntimePlugins{"plSteamPlugin"}
+	string %PackageDependencies{"steam_api64"}
+	string %RequiredPlugins{}
+	// Only one platform backend package can be active in a project.
+	string %ExclusiveFeatures{"PlatformBackend"}
+	string %EnabledInTemplates{}
+	string %PlasmaBuildTargetName{"SteamPlugin"}
+}

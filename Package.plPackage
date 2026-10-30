@@ -1,0 +1,58 @@
+// plasma.steam — Steamworks platform backend.
+//
+// The AUTHORED manifest, kept in source next to the plugin. It declares identity, compatibility,
+// what to load and what to ship. Component hashes and sizes are NOT here: the packaging step
+// computes those and emits them into the published manifest that ships inside the .plpkg.
+//
+// Field reference and validation rules: Docs/PluginPackageManagerPlan.html §05.
+
+PackageInfo
+{
+	// ---- identity -------------------------------------------------------------
+	string %Id{"plasma.steam"}
+	string %Version{"1.1.2"}
+	string %Publisher{"PlasmaTechnology"}
+	string %License{"MIT"}
+	string %Homepage{"https://plasmagameengine.com"}
+
+	// ---- compatibility --------------------------------------------------------
+	// Must equal plSdkVersion::GetAbiTag() of the engine these binaries were built
+	// against. The build configuration is part of it - a Development and a Shipping
+	// build do not share a binary interface.
+	string %MinEngineVersion{"0.11.2"}
+	string %MaxEngineVersion{"0.11.2"}
+	string %AbiTag{"win64-msvc19-0.11.2-abi6-dev"}
+
+	// ---- presentation ---------------------------------------------------------
+	// The SDK requirement leads the description: the plugin cannot build or load without
+	// a Steamworks SDK the developer provides.
+	string %DisplayName{"Steam"}
+	string %Category{"Networking"}
+	string %Description{"Steam platform backend for Platform Services: identity, achievements, stats, leaderboards, friends, rich presence, lobbies, lobby-based matchmaking, invites, DLC entitlements, the Steam overlay, peer-to-peer transport over Steam Datagram Relay and Steam Cloud saves.
+
+The Steamworks SDK is not redistributed. To build, STEAM_SDK_PATH must point at the SDK root - the directory containing public/steam/steam_api.h and redistributable_bin/win64/steam_api64.lib. To run, steam_api64.dll from that SDK must sit beside the game executable; without it plSteamPlugin will fail to load.
+
+Configure the app id in RuntimeConfigs/PlatformServices.ddl (backend block 'steam', key AppId) and list 'steam' first in the backend order."}
+	string %Icon{"Branding/SteamIcon.png"}
+	string %Banner{"Branding/SteamBanner.png"}
+
+	// ---- binaries -------------------------------------------------------------
+	// Runtime only: no editor plugin and no editor-engine-process plugin. The store
+	// backend is never initialised in tool processes anyway.
+	// PackageDependencies names steam_api64.dll so the packaging step knows the plugin
+	// imports it; the DLL itself is the developer's to provide and is not shipped here.
+	string %EditorPlugins{}
+	string %EditorEnginePlugins{}
+	string %RuntimePlugins{"plSteamPlugin"}
+	string %PackageDependencies{"steam_api64"}
+
+	// ---- dependencies ---------------------------------------------------------
+	// None resolvable through the registry. It binds to GameEngine (PlatformServices,
+	// SaveGame) and to the developer's Steamworks SDK.
+
+	// ---- components -----------------------------------------------------------
+	Component { string %Name{"manifest"} string %Platform{"any"} }
+	Component { string %Name{"runtime-win64"} string %Platform{"win64"} }
+	Component { string %Name{"icon"} string %Platform{"any"} }
+	Component { string %Name{"banner"} string %Platform{"any"} }
+}
